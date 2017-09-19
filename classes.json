@@ -1,0 +1,33 @@
+{
+    "classes": [{
+        "id": 1,
+        "avatar": "http://www.example.com/avatar/1",
+        "name": "RO1班",
+        "distance": 3,
+        "money": 1000,
+        "required_duration": 1,
+        "limit_cycles": 1,
+        "num": 1,
+        "city": "北京市",
+        "tags": [
+            "标签1",
+            "标签2",
+            "标签3"
+        ]
+    }, {
+        "id": 2,
+        "avatar": "http://www.example.com/avatar/2",
+        "name": "RO2班",
+        "distance": 3,
+        "money": 1000,
+        "required_duration": 1,
+        "limit_cycles": 1,
+        "num": 1,
+        "city": "北京市",
+        "tags": [
+            "标签1",
+            "标签2",
+            "标签3"
+        ]
+    }]
+}
