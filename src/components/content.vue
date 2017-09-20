@@ -1,63 +1,69 @@
 <template>
   <div id="content">
-	<div class="list">
+	<div class="list" v-for="(item, index) in showList" :key="item.id">
 		<div class="avatar">
-			<img  width='32px' height='32px' src="" alt="avatar">
+			<img  width='32' height='32' :src="item.avatar" alt="avatar">
 		</div>
 		<div class="list-content">
 			<div class="list-title">
-				<span class="name">RO1班</span>
-				<span class="city">1人|北京</span>
+				<span class="name">{{item.name}}</span>
+				<span class="city">{{item.num}}人|{{item.city}}</span>
 			</div>
 			<div class="tag">
 				<ul>
-					<li>标签1</li>
+					<li v-for="text in newList[index]">{{text}}</li><!-- 
 					<li>标签2</li>
-					<li>标签3</li>
+					<li>标签3</li> -->
 				</ul>
 			</div>
-			<div class="describe" v-show="!this.tipsShow">
-				<ul>
-					<li>3km</li>
-					<li>1元1天</li>
-					<li>10元/天</li>
-					<li>最少一周</li>
-				</ul>
-				<span class="detailed" @click="showTips">
-					>
-				</span>
+			<div class="describe" v-show="!selected[item.id + '_flag']">
+				<span>{{item.distance}}km</span>
+				<span>1周{{item.required_duration}}天</span>
+				<span>{{item.money / 100}}元/天</span>
+				<span>最少{{item.limit_cycles}}周</span>
 			</div>
-			<div class="describe-more" v-show="this.tipsShow">
-				<div class="describe-tag">
+			<div class="detailed" @click="showTips(item.id)" v-show="!selected[item.id + '_flag']">
+				<img width="17" height="17" src="../assets/2.png" alt="">
+			</div>
+			<div class="describe-more" v-show="selected[item.id + '_flag']">
+				<div class="tag-more">
 					<ul>
-						<li>3km</li>
-						<li>1周1天</li>
-						<li>10元/天</li>
-						<li>最少一周</li>
+						<li>
+							<span class="describe-tag">{{item.distance}}km</span>
+							<span class="describe-xx">每次跑不低于{{item.distance}}公里</span>
+						</li>
+						<li>
+							<span class="describe-tag">1周{{item.required_duration}}天</span>
+							<span class="describe-xx">每周跑{{item.required_duration}}天</span>
+						</li>
+						<li>
+							<span class="describe-tag">{{item.money / 100}}元</span>
+							<span class="describe-xx">每天契约金{{item.money / 100}}元</span>
+						</li>
+						<li>
+							<span class="describe-tag">最少{{item.limit_cycles}}周</span><span class="describe-xx">至少参加{{item.limit_cycles}}周</span>
+						</li>
 					</ul>
 				</div>
-				<div class="describe-con">
-					<ul>
-						<li>每次跑不低于3公里</li>
-						<li>每周跑1天</li>
-						<li>每天契约金10元</li>
-						<li>至少参加一周</li>
-					</ul>
-				</div>
-				<span class="detailed" @click="showTips">
-					?
-				</span>
+			</div>
+			<div class="detailed" @click="showTips(item.id)" v-show="selected[item.id + '_flag']">
+				<img width="17" height="17" src="../assets/1.png" alt="">
 			</div>
 		</div>
 	</div>
+	<div class="seeMore" @click="showMore = !showMore">查看更多></div>
   </div>
+
 </template>
 
 <script>
 	export default {
 		data() {
 			return{
-				tipsShow: false
+				classes: [],
+				tipsShow: false,
+				showMore: false,
+				selected: []
 			}
 		},
 		created() {
@@ -68,9 +74,35 @@
 	          console.log(this.classes);
 	        })
 	    },
+		computed: {
+			showList: function(){
+				if(this.showMore == false){
+					let showList = [];
+					if(this.classes.length > 3){
+						for(let i=0;i<3;i++){
+							showList.push(this.classes[i]);
+						}
+					}else{
+						showList = this.classes;
+					}
+					return showList;
+				}else{
+					return this.classes;
+				}
+    		},
+    		newList: function(){
+    			return this.classes.map(v => v.tags);
+    		}
+	    },
 	    methods: {
-			showTips() {
-				this.tipsShow = !this.tipsShow;
+			showTips: function(id) {
+				if (!id) return
+				let str = id + '_flag'
+				if (this.selected.hasOwnProperty(str)) {
+					this.selected[id + '_flag'] = !this.selected[id + '_flag']
+				} else {
+					this.$set(this.selected, str, true)
+				}
 			}
 	    }
 	}
@@ -82,16 +114,21 @@
 		display: flex;
 		border-bottom: 1px solid #000;
 	}
+	@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    	.list { border-bottom: 0.5px solid #000 }
+	}
+	@media screen and (-webkit-min-device-pixel-ratio: 3) {
+    	.list { border-bottom: 0.333333px solid #000 }
+	}
 	.avatar{
 		display: inline-block;
 		padding: 15px 30px 15px 0;
 	}
 	.list-content{
 		display: inline-block;
-		/*padding-top: 15px;*/
 		font-size: 12px;
 		flex: 1;
-
+		position: relative;
 	}
 	.list-title{
 		height: 30px;
@@ -112,48 +149,52 @@
 
 	}
 	.tag li{
-		display: inline-block;
+		float: left;
+		margin-right: 4px;
 	}
 	.describe{
 		margin-top: 5px;
-		height: 25px;
-		line-height: 25px;
-		/*display: none;*/
+		line-height: 17px;
 	}
-	.describe ul{
-		display: inline-block;
-	}
-	.describe ul li{
-		display: inline-block;
+	.describe span{
+		float: left;
 		background-color: pink;
 		color: #fff;
 		border-radius: 2px;
 		padding: 0 4px;
-		font-size: 4px;
-		margin: auto 0;
+		margin-right: 5px;
 	}
 	.detailed{
-		/*width: 25px;*/
-		height: 25px;
-		line-height: 25px;
-		margin-left: 20px;
-
+		position: absolute;
+		right: 35px;
+		top: 65px;
 	}
-	.describe-tag{
-		float: left;
+	.describe-more{
+		margin-top: 5px;
+		position: relative;
 	}
-	.describe-con{
-		float: left;
+	.tag-more{
+		display: inline-block;
 	}
-	.describe-more li{
-	    margin-bottom: 10px;
+	.tag-more li{
+	    line-height: 17px;
+	    margin-bottom: 2px;
 	}
-	.describe-tag li{
+	.describe-tag {
+		display: inline;
+		height: 17px;
 		background-color: pink;
 		color: #fff;
 		border-radius: 2px;
 		padding: 0 4px;
-		font-size: 4px;
-		width: auto;
+	}
+	.describe-xx{
+		position: absolute;
+		left: 60px;
+	}
+	.seeMore{
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
 	}
 </style>

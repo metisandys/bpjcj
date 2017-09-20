@@ -18,12 +18,57 @@
         "id": 2,
         "avatar": "http://www.example.com/avatar/2",
         "name": "RO2班",
+        "distance": 2,
+        "money": 2000,
+        "required_duration": 2,
+        "limit_cycles": 2,
+        "num": 2,
+        "city": "杭州市",
+        "tags": [
+            "标签9",
+            "标签8",
+            "标签7"
+        ]
+    }, {
+        "id": 3,
+        "avatar": "http://www.example.com/avatar/2",
+        "name": "RO2班",
         "distance": 3,
-        "money": 1000,
-        "required_duration": 1,
-        "limit_cycles": 1,
-        "num": 1,
-        "city": "北京市",
+        "money": 3000,
+        "required_duration": 3,
+        "limit_cycles": 3,
+        "num": 3,
+        "city": "杭州市",
+        "tags": [
+            "标签1",
+            "标签2",
+            "标签3"
+        ]
+    }, {
+        "id": 4,
+        "avatar": "http://www.example.com/avatar/2",
+        "name": "RO2班",
+        "distance": 3,
+        "money": 3000,
+        "required_duration": 3,
+        "limit_cycles": 3,
+        "num": 3,
+        "city": "杭州市",
+        "tags": [
+            "标签1",
+            "标签2",
+            "标签3"
+        ]
+    }, {
+        "id": 5,
+        "avatar": "http://www.example.com/avatar/2",
+        "name": "RO2班",
+        "distance": 3,
+        "money": 3000,
+        "required_duration": 3,
+        "limit_cycles": 3,
+        "num": 3,
+        "city": "哈哈市",
         "tags": [
             "标签1",
             "标签2",

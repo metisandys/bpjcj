@@ -2,7 +2,6 @@
   <div id="app">
     <header-v></header-v>
     <content-v></content-v>
-    <content-v></content-v>
   </div>
 </template>
 
